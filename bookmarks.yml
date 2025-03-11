@@ -1,0 +1,68 @@
+---
+web:
+  handlers:
+    chrome.exe: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+    msedge.exe: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
+  bookmarks:
+    # News
+    ebo:
+      dsp: 'Election Betting Odds'
+      url: 'https://electionbettingodds.com/'
+  
+    # Google
+    gm:
+      dsp: 'Gmail Inbox'
+      url: 'https://mail.google.com/mail/u/0/#inbox'
+      
+    gm:
+      dsp: 'Google Drive'
+      url: 'https://drive.google.com/drive/my-drive'
+    
+    sd:
+      dsp: 'Google Drive: Shared Drives'
+      url: 'https://drive.google.com/drive/shared-drives'
+    
+    gv:
+      dsp: 'Google Voice'
+      url: 'https://voice.google.com/u/0/messages'
+    
+    gc:
+      dsp: 'Google Calendar'
+      url: 'https://calendar.google.com/calendar/u/0/r?tab=mc&pli=1#main_7'
+    
+    cal:
+      dsp: 'Google Calendar'
+      url: 'https://calendar.google.com/calendar/u/0/r?tab=mc&pli=1#main_7'
+    
+    
+    # OpenAI
+    gpt:
+      dsp: 'ChatGPT o3-mini-high'
+      url: 'https://chatgpt.com/?model=o3-mini-high'
+    o1:
+      dsp: 'ChatGPT o3-mini-high'
+      url: 'https://chatgpt.com/?model=o1'
+
+    # Amazon
+    ama:
+      dsp: 'Amazon'
+      url: 'https://www.amazon.com/ref=nav_logo'
+    
+    ao:
+      dsp: 'Amazon Orders'
+      url: 'https://www.amazon.com/gp/css/order-history?ref_=nav_orders_first'
+
+
+file:
+  handlers:
+    explorer.exe: 'C:/Windows/explorer.exe'
+  bookmarks:
+    '~':
+      dsp: '~'
+      url: 'C:/Users/justin/'
+    diod:
+      dsp: 'diod'
+      url: 'C:/Users/justin/Documents/diod/'
+    gd:
+      dsp: 'Google Drive'
+      url: 'G:\\'
