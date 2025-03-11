@@ -14,7 +14,7 @@ web:
       dsp: 'Gmail Inbox'
       url: 'https://mail.google.com/mail/u/0/#inbox'
       
-    gm:
+    gd:
       dsp: 'Google Drive'
       url: 'https://drive.google.com/drive/my-drive'
     
