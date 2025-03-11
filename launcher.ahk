@@ -1,4 +1,9 @@
-﻿F1::
+﻿#Requires AutoHotkey v2.0
+#UseHook
+#singleinstance force
+KeyHistory 0
+
+F1::
 {
   ; Check the active process
   processName := WinGetProcessName("A")
