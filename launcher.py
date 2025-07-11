@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import messagebox
 import traceback
 
+
 def show_detailed_error(title, message, exception=None):
   """Display a detailed error message with stack trace in a popup."""
   if exception:
@@ -14,6 +15,7 @@ def show_detailed_error(title, message, exception=None):
   else:
     full_message = message
   messagebox.showerror(title, full_message)
+
 
 def main():
   """
@@ -31,7 +33,7 @@ def main():
       win_y = int(sys.argv[3])
       win_width = int(sys.argv[4])
       win_height = int(sys.argv[5])
-    except ValueError as e:
+    except ValueError:
       raise ValueError("Geometry arguments must be integers: " + str(sys.argv[2:]))
 
     script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -40,7 +42,7 @@ def main():
     try:
       with open(yaml_path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
       raise FileNotFoundError(f"YAML file not found: {yaml_path}")
     except yaml.YAMLError as e:
       raise yaml.YAMLError(f"Invalid YAML format in {yaml_path}: {str(e)}")
@@ -132,29 +134,43 @@ def main():
           listbox.activate(0)
 
     def launch_bookmark(event=None):
+      """
+      Launch whichever bookmark is highlighted in the Listbox.
+
+      The Listbox always shows a filtered and alphabetically-sorted view
+      of `bookmark_items`, so we rebuild that same view here to map the
+      Listbox row index back to its underlying (key, dsp, url) tuple.
+
+      Pressing <Enter> without a selection or with an out-of-range index
+      is ignored gracefully.
+      """
       typed_text = str(entry_var.get().strip().lower())
+
+      # Nothing highlighted → nothing to launch
       selection = listbox.curselection()
       if not selection:
         return
-      matched_bookmarks = []
-      for (key, dsp, url) in bookmark_items:
-        if typed_text in str(key).lower() or typed_text in str(dsp).lower():
-          matched_bookmarks.append((key, dsp, url))
-      if not matched_bookmarks:
+      selected_index = selection[0]
+
+      # Re-create the list currently visible in the Listbox
+      visible_items = [
+        (key, dsp, url)
+        for (key, dsp, url) in bookmark_items
+        if typed_text in str(key).lower() or typed_text in str(dsp).lower()
+      ]
+      if selected_index >= len(visible_items):
         return
-      for (key, dsp, url) in matched_bookmarks:
-        if typed_text == str(key).lower():
-          chosen = (key, dsp, url)
-          break
-      else:
-        chosen_index = selection[0]
-        chosen = matched_bookmarks[chosen_index]
-      url = os.path.normpath(str(chosen[2]))
-      cmd = [str(handler_path), url]
+
+      key, dsp, url = visible_items[selected_index]
+      cmd = [str(handler_path), os.path.normpath(str(url))]
       try:
         subprocess.Popen(cmd, shell=False)
       except FileNotFoundError as e:
-        show_detailed_error("Launch Error", f"Could not launch {handler_path}.\nPlease ensure the executable path is correct.", e)
+        show_detailed_error(
+          "Launch Error",
+          f"Could not launch {handler_path}. Verify the executable path.",
+          e,
+        )
       except subprocess.SubprocessError as e:
         show_detailed_error("Launch Error", f"Error launching {url}", e)
       finally:
@@ -218,6 +234,7 @@ def main():
   except Exception as e:
     show_detailed_error("Unexpected Error", "An unexpected error occurred while running the launcher.", e)
     sys.exit(1)
+
 
 if __name__ == "__main__":
   main()
